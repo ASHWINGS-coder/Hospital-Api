@@ -4,7 +4,13 @@ const patientSchema = mongoose.Schema({
     phone:{
         type:String,
         required:true
-    }
+    },
+    report:[
+       { 
+           type: mongoose.Schema.ObjectId,
+           ref: "Report"
+        }
+    ]
 },{
     timestamps:true
 });

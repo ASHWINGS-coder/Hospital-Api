@@ -29,9 +29,9 @@ module.exports.createReport = async function(req, res){
     let patientId = req.params.id;
     let patient = await Patient.findById({_id: patientId});
     if(patient){
-        await Report.create({
+      const report =  await Report.create({
             patient: patientId,
-            //doctor: req.user.id,
+            doctor: req.doctor.id,
             status: req.body.status
         }, function(err, report){
             if(err){console.log("Error in creating Reports", err); return;}
@@ -40,7 +40,8 @@ module.exports.createReport = async function(req, res){
                 Report: report
             });
         });
-
+        patient.report.push(report);
+        patient.save();
     }else{
         return res.json({
             message: "Patient Not Exists"
